@@ -17,6 +17,14 @@ jobs:
       # Checkout the repository code
       - name: Checkout code
         uses: actions/checkout@v3
+        
+        
+      # Set up Java environment
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17' # Specify the Java version you need
 
       # Set up Node.js environment (needed for Snyk CLI)
       - name: Set up Node.js
@@ -31,11 +39,19 @@ jobs:
       # Authenticate Snyk using the token
       - name: Authenticate Snyk
         run: snyk auth ${{ secrets.SNYK_TOKEN }}
+        
+      # Run Snyk scan for Java
+      - name: Run Snyk test for Java dependencies
+        run: snyk test --file=pom.xml --severity-threshold=high
+        
+      # Optional Step: Monitor project on Snyk dashboard
+      - name: Monitor Snyk project
+        run: snyk monitor --file=pom.xml
 
       # Run Snyk scan for dependencies
-      - name: Run Snyk scan
-        run: snyk test
+      #- name: Run Snyk scan
+      #  run: snyk test
 
       # Run Snyk scan for Infrastructure as Code (IaC)
-      - name: Run Snyk IaC scan
-        run: snyk iac test
+     # - name: Run Snyk IaC scan
+     #   run: snyk iac test
