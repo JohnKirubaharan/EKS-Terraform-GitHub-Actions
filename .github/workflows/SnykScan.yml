@@ -1,0 +1,41 @@
+name: CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  snyk-scan:
+    name: Snyk Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js environment (needed for Snyk CLI)
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16' # Or any other required version
+
+      # Install Snyk CLI
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+
+      # Authenticate Snyk using the token
+      - name: Authenticate Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+
+      # Run Snyk scan for dependencies
+      - name: Run Snyk scan
+        run: snyk test
+
+      # Run Snyk scan for Infrastructure as Code (IaC)
+      - name: Run Snyk IaC scan
+        run: snyk iac test
