@@ -42,10 +42,12 @@ jobs:
         
       # Run Snyk scan for Java
       - name: Run Snyk test for Java dependencies
+        working-directory: green-global-initiative-api
         run: snyk test --file=pom.xml --severity-threshold=high
         
       # Optional Step: Monitor project on Snyk dashboard
       - name: Monitor Snyk project
+        working-directory: green-global-initiative-api
         run: snyk monitor --file=pom.xml
 
       # Run Snyk scan for dependencies
