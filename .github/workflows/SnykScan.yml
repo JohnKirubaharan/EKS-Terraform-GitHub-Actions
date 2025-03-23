@@ -31,11 +31,26 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16' # Or any other required version
-          
-      # Make mvnw executable
+       
+      # Check if mvnw exists
+      - name: Check if mvnw exists
+        run: ls -l ./green-global-initiative-api/mvnw
+
+
+      # Verbose Output for Debugging
+      - name: List files in green-global-initiative-api
+        run: ls -l ./green-global-initiative-api
+
+      # Make mvnw executable with Debugging
       - name: Make mvnw executable
         working-directory: green-global-initiative-api
-        run: chmod +x ./mvnw
+        run: |
+        chmod +x ./mvnw
+        ls -l ./mvnw  # Verify permissions after running chmod
+       
+      # Check For Access rights
+      - name: Check file permissions
+        run: stat ./green-global-initiative-api/mvnw
 
       # Install Snyk CLI
       - name: Install Snyk CLI
