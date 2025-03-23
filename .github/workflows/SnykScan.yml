@@ -47,6 +47,10 @@ jobs:
         run: |
           chmod +x ./mvnw
           ls -l ./mvnw  # Verify permissions after running chmod
+      
+      - name: Run mvn dependency check
+        working-directory: ./green-global-initiative-api
+        run: ./mvnw dependency:tree -DoutputType=dot --batch-mode --non-recursive --file="pom.xml"
        
       # Check For Access rights
       - name: Check file permissions
