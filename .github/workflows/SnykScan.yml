@@ -31,6 +31,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '16' # Or any other required version
+      
+      # Generate mvnw using wrapper
+      - name: Generate Maven Wrapper
+        working-directory: ./green-global-initiative-api
+        run: mvn wrapper:wrapper
        
       # Check if mvnw exists
       - name: Check if mvnw exists
@@ -39,7 +44,7 @@ jobs:
 
       # Verbose Output for Debugging
       - name: List files in green-global-initiative-api
-        run: ls -l ./green-global-initiative-api
+        run: ls -l ./green-global-initiative-api/mvnw
 
       # Make mvnw executable with Debugging
       - name: Make mvnw executable
